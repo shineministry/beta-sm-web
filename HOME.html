@@ -1,0 +1,351 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Shine Catholic Media Ministry</title>
+<meta name="theme-color" content="#24629C">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'SF Pro Display','Helvetica Neue',Helvetica,Arial,sans-serif;background:#f6f6f6;color:#223547;-webkit-font-smoothing:antialiased;overflow-x:hidden;-webkit-text-size-adjust:100%}
+@keyframes fadeInUp{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+@keyframes slideDown{from{opacity:0;transform:translateY(-20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes blink{0%,50%{opacity:1}51%,100%{opacity:0}}
+.animate-on-scroll{opacity:0;transform:translateY(40px);transition:opacity 0.8s ease,transform 0.8s ease}
+.animate-on-scroll.visible{opacity:1;transform:translateY(0)}
+
+/* NAV */
+.ios-nav{position:fixed;top:0;left:0;right:0;height:60px;background:rgba(255,255,255,0.97);-webkit-backdrop-filter:saturate(180%) blur(20px);backdrop-filter:saturate(180%) blur(20px);z-index:1000;border-bottom:1px solid rgba(34,53,71,0.08);transition:all 0.3s;box-shadow:0 1px 3px rgba(0,0,0,0.04)}
+.ios-nav.scrolled{box-shadow:0 2px 12px rgba(0,0,0,0.08)}
+.ios-nav-inner{max-width:100%;height:100%;display:flex;align-items:center;padding:0 16px;gap:0}
+.ios-nav-menu-btn{background:none;border:none;cursor:pointer;padding:6px;color:#24629C;display:flex;align-items:center;justify-content:center;flex-shrink:0;-webkit-tap-highlight-color:transparent}
+.ios-nav-title{font-family:'Playfair Display',Georgia,serif;font-size:17px;font-weight:900;color:#223547;letter-spacing:0.03em;flex:1;text-align:center;padding-right:34px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.beta-banner{position:fixed;top:60px;left:0;right:0;background:linear-gradient(135deg,#24629C,#1a4a7a);color:#fff;font-size:10px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;text-align:center;padding:6px 0;z-index:999;box-shadow:0 2px 8px rgba(36,98,156,0.3);animation:slideDown 0.5s ease}
+
+/* SIDEBAR */
+.ios-overlay{position:fixed;inset:0;z-index:1001;background:rgba(0,0,0,0.4);opacity:0;pointer-events:none;transition:opacity 0.3s}
+.ios-overlay.open{opacity:1;pointer-events:auto}
+.ios-sidebar{position:fixed;top:0;left:0;bottom:0;width:300px;max-width:82vw;z-index:1002;background:#fff;border-right:0.5px solid rgba(34,53,71,0.1);overflow-y:auto;transform:translateX(-100%);transition:transform 0.32s cubic-bezier(0.32,0.72,0,1);padding-bottom:env(safe-area-inset-bottom,0px);-webkit-overflow-scrolling:touch}
+.ios-sidebar.open{transform:translateX(0)}
+.ios-sb-head{padding:calc(28px + env(safe-area-inset-top,0px)) 20px 16px;border-bottom:1px solid rgba(34,53,71,0.08);display:flex;align-items:center;gap:12px}
+.ios-sb-logo{width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,#24629C,#1a4a7a);display:flex;align-items:center;justify-content:center;font-size:20px;color:#fff;flex-shrink:0}
+.ios-sb-title{font-size:14px;font-weight:600;line-height:1.3;color:#223547}
+.ios-sb-links{padding:8px 0}
+.ios-sb-group{padding:10px 20px 4px;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:rgba(34,53,71,0.5)}
+.ios-sb-link{display:block;padding:12px 20px;font-size:15px;color:#223547;text-decoration:none;transition:background 0.15s;-webkit-tap-highlight-color:transparent}
+.ios-sb-link:active{background:rgba(36,98,156,0.06)}
+
+/* HERO */
+.hero{position:relative;width:100%;min-height:85vh;display:flex;align-items:center;justify-content:center;overflow:hidden;margin-top:76px}
+.hero-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 15%;transform:scale(1.05);transition:transform 8s ease}
+.hero.loaded .hero-bg{transform:scale(1)}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(34,53,71,0.08) 0%,rgba(34,53,71,0.02) 30%,rgba(34,53,71,0.75) 100%)}
+.hero-content{position:relative;z-index:2;text-align:center;padding:0 24px;animation:fadeIn 1.5s ease}
+.hero-badge{display:inline-block;background:rgba(255,255,255,0.95);color:#223547;font-size:10px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;padding:8px 18px;border-radius:100px;margin-bottom:14px;animation:fadeInUp 1s ease 0.3s both;box-shadow:0 2px 12px rgba(0,0,0,0.1)}
+.hero h1{color:#fff;font-family:'Playfair Display',Georgia,serif;font-size:clamp(36px,9vw,60px);font-weight:900;line-height:1.05;margin-bottom:10px;text-shadow:0 2px 24px rgba(0,0,0,0.3);animation:fadeInUp 1s ease 0.5s both}
+.hero-subtitle{color:rgba(255,255,255,0.92);font-size:clamp(15px,4vw,19px);font-weight:300;animation:fadeInUp 1s ease 0.7s both;max-width:520px;margin:0 auto}
+.hero-scroll{position:absolute;bottom:28px;left:50%;transform:translateX(-50%);z-index:2;animation:fadeIn 1s ease 1.5s both}
+.hero-scroll svg{width:24px;height:24px;fill:none;stroke:#fff;stroke-width:2;animation:pulse 2s infinite}
+
+/* TYPEWRITER */
+.typewriter-section{padding:0 16px;margin-top:-40px;position:relative;z-index:3}
+.typewriter-card{background:rgba(255,255,255,0.97);-webkit-backdrop-filter:blur(24px);backdrop-filter:blur(24px);border-radius:20px;padding:24px 20px;box-shadow:0 8px 40px rgba(34,53,71,0.1);text-align:center}
+.typewriter-text{font-size:clamp(14px,3.5vw,17px);font-weight:500;color:#223547;min-height:24px}
+.typewriter-cursor{display:inline-block;width:2px;height:18px;background:#24629C;margin-left:2px;vertical-align:text-bottom;animation:blink 1s infinite}
+
+/* LAYOUT */
+.site-layout{display:flex;gap:0;max-width:1400px;margin:0 auto;padding:0 16px}
+.site-main{flex:1;min-width:0;padding-right:16px}
+.site-ad-sidebar{width:20%;min-width:160px;max-width:280px;flex-shrink:0;position:relative}
+.site-ad-sticky{position:sticky;top:80px;padding:12px 0}
+
+/* AD */
+.ad-container{background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 2px 12px rgba(34,53,71,0.06);min-height:250px;display:flex;align-items:center;justify-content:center;position:relative}
+.ad-label{font-size:9px;font-weight:500;text-transform:uppercase;letter-spacing:0.1em;color:rgba(34,53,71,0.3);position:absolute;top:6px;right:10px;z-index:1}
+
+/* CONTENT */
+.content-section{padding:12px 0;position:relative}
+.section-card{position:relative;border-radius:20px;padding:0;margin-bottom:12px;overflow:hidden;background:#fff;box-shadow:0 4px 24px rgba(34,53,71,0.08)}
+.section-card-img{position:relative;width:100%;min-height:200px;overflow:hidden}
+.section-card-img img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0}
+.section-card-img .card-gradient{position:absolute;inset:0;background:linear-gradient(to top,rgba(34,53,71,0.88) 0%,rgba(34,53,71,0.5) 45%,rgba(34,53,71,0.08) 100%)}
+.section-card-img .card-content{position:absolute;bottom:0;left:0;right:0;padding:20px;color:#fff;z-index:1}
+.section-card-img .card-content h2{font-family:'Playfair Display',Georgia,serif;font-size:clamp(18px,4.5vw,22px);font-weight:600;color:#fff;margin-bottom:6px;text-align:left}
+.section-card-img .card-content p{font-size:13px;line-height:1.7;color:rgba(255,255,255,0.9);text-align:left}
+.section-card-text{padding:24px 20px}
+.section-card-text h2{font-family:'Playfair Display',Georgia,serif;font-size:clamp(20px,5vw,24px);font-weight:600;color:#223547;margin-bottom:10px;text-align:center}
+.section-card-text p{font-size:14px;line-height:1.7;color:#353535;margin-bottom:10px}
+.section-card-text ul{font-size:14px;line-height:2;color:#353535;padding-left:18px;margin-bottom:10px}
+.section-card-text h3{font-family:'Playfair Display',Georgia,serif;font-size:17px;font-weight:600;margin:14px 0 8px;color:#223547}
+
+/* IMAGE GRID */
+.image-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}
+.image-grid-item{position:relative;border-radius:16px;overflow:hidden;aspect-ratio:1;box-shadow:0 2px 12px rgba(34,53,71,0.08)}
+.image-grid-item img{width:100%;height:100%;object-fit:cover;transition:transform 0.4s ease}
+.image-grid-item:active img{transform:scale(1.05)}
+.image-grid-item .grid-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(34,53,71,0.7) 0%,transparent 50%)}
+.image-grid-item .grid-label{position:absolute;bottom:10px;left:10px;right:10px;color:#fff;font-size:12px;font-weight:600;text-shadow:0 1px 4px rgba(0,0,0,0.3)}
+
+/* HORIZONTAL SCROLL CARDS */
+.scroll-row{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;padding:4px 0 12px;scrollbar-width:none}
+.scroll-row::-webkit-scrollbar{display:none}
+.scroll-card{flex:0 0 260px;scroll-snap-start;border-radius:16px;overflow:hidden;background:#fff;box-shadow:0 4px 20px rgba(34,53,71,0.08);position:relative}
+.scroll-card img{width:100%;height:160px;object-fit:cover}
+.scroll-card .card-body{padding:14px}
+.scroll-card .card-body h3{font-family:'Playfair Display',Georgia,serif;font-size:15px;font-weight:600;color:#223547;margin-bottom:4px}
+.scroll-card .card-body p{font-size:12px;color:#353535;line-height:1.5}
+
+/* BUTTONS */
+.ios-btn{display:inline-block;padding:11px 22px;background:rgba(36,98,156,0.08);border:1px solid rgba(36,98,156,0.2);border-radius:100px;color:#24629C;font-size:13px;font-weight:600;text-align:center;text-decoration:none;transition:all 0.3s ease;margin-top:10px;-webkit-tap-highlight-color:transparent}
+.ios-btn:hover{background:rgba(36,98,156,0.12);transform:translateY(-1px);box-shadow:0 4px 16px rgba(36,98,156,0.2)}
+.ios-btn:active{transform:scale(0.97)}
+.ios-btn-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;justify-content:center}
+.ios-btn-primary{background:linear-gradient(135deg,#24629C,#1a4a7a);color:#fff;border:none}
+.ios-btn-primary:hover{background:linear-gradient(135deg,#1a4a7a,#153d66);box-shadow:0 6px 24px rgba(36,98,156,0.35)}
+.ios-btn-white{background:#fff;color:#223547;border:1px solid rgba(34,53,71,0.15)}
+.ios-btn-white:hover{background:#f6f6f6;box-shadow:0 4px 16px rgba(0,0,0,0.1)}
+
+/* SPECIAL */
+.prayer-quote{background:linear-gradient(135deg,#2A3A4A,#223547);color:#fff;border-radius:20px;padding:36px 24px;text-align:center;font-size:15px;font-weight:400;line-height:1.8;font-style:italic;margin-bottom:12px;box-shadow:0 8px 40px rgba(34,53,71,0.3);position:relative;overflow:hidden}
+.prayer-quote::before{content:'\201C';position:absolute;top:-20px;left:16px;font-size:120px;font-family:'Playfair Display',Georgia,serif;opacity:0.1;line-height:1}
+.join-banner{background:linear-gradient(135deg,rgba(36,98,156,0.06),rgba(34,53,71,0.04));border-radius:20px;padding:24px 20px;margin-bottom:12px;text-align:center}
+.join-banner p{font-weight:600;color:#24629C;font-size:14px;letter-spacing:0.02em;line-height:1.6}
+
+/* SECTION HEADER */
+.section-header{text-align:center;margin-bottom:12px}
+.section-header h2{font-family:'Playfair Display',Georgia,serif;font-size:clamp(20px,5vw,26px);font-weight:700;color:#223547;margin-bottom:4px}
+.section-header p{font-size:13px;color:#353535}
+
+/* FOOTER */
+.ios-footer{background:#223547;color:#fff;padding:40px 20px calc(32px + env(safe-area-inset-bottom,0px));margin-top:32px}
+.footer-grid{display:grid;grid-template-columns:1fr 1fr;gap:32px;max-width:900px;margin:0 auto}
+.footer-col{display:flex;flex-direction:column}
+.footer-section{margin-bottom:20px}
+.footer-heading{font-family:'Playfair Display',Georgia,serif;font-size:16px;font-weight:600;margin-bottom:10px;color:#fff}
+.footer-subheading{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:rgba(255,255,255,0.5);margin-bottom:6px}
+.footer-text{font-size:13px;line-height:1.6;color:rgba(255,255,255,0.85);margin-bottom:3px}
+.footer-link{display:block;font-size:13px;color:#7db8e0;text-decoration:none;padding:4px 0;transition:color 0.2s}
+.footer-link:hover{color:#fff}
+.footer-divider{height:1px;background:rgba(255,255,255,0.1);margin:16px 0}
+.footer-social{display:flex;gap:10px;flex-wrap:wrap}
+.footer-social-link{display:block;width:40px;height:40px;border-radius:10px;overflow:hidden;transition:transform 0.2s;-webkit-tap-highlight-color:transparent}
+.footer-social-link:active{transform:scale(0.9)}
+.footer-social-link img{width:100%;height:100%;object-fit:cover}
+.footer-button{display:inline-block;padding:10px 18px;margin:4px 4px 4px 0;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:100px;color:#fff;font-size:13px;font-weight:500;text-decoration:none;transition:all 0.2s;-webkit-tap-highlight-color:transparent}
+.footer-button:active{background:rgba(255,255,255,0.15)}
+.footer-bottom{text-align:center;padding-top:16px;border-top:1px solid rgba(255,255,255,0.1);margin-top:8px}
+.footer-copyright{font-size:12px;color:rgba(255,255,255,0.5)}
+
+/* SCROLL TOP */
+.scroll-top{position:fixed;bottom:24px;right:24px;width:48px;height:48px;background:rgba(255,255,255,0.95);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border:1px solid rgba(34,53,71,0.1);border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(0,0,0,0.12);opacity:0;pointer-events:none;transition:all 0.3s;z-index:100;-webkit-tap-highlight-color:transparent}
+.scroll-top.visible{opacity:1;pointer-events:auto}
+.scroll-top:active{transform:scale(0.9)}
+.scroll-top svg{width:20px;height:20px;fill:#24629C}
+
+/* MOBILE */
+@media(max-width:900px){
+  .site-ad-sidebar{display:none}
+  .site-main{padding-right:0}
+  .site-layout{padding:0 12px}
+  .footer-grid{grid-template-columns:1fr;gap:24px}
+}
+@media(max-width:640px){
+  .hero{min-height:72vh;margin-top:72px}
+  .hero-badge{font-size:9px;padding:7px 14px;margin-bottom:12px}
+  .hero h1{font-size:32px;margin-bottom:8px}
+  .hero-subtitle{font-size:15px}
+  .hero-scroll{bottom:20px}
+  .typewriter-section{margin-top:-32px}
+  .typewriter-card{padding:20px 16px;border-radius:16px}
+  .content-section{padding:8px 0}
+  .section-card{border-radius:16px;margin-bottom:10px}
+  .section-card-img{min-height:180px}
+  .section-card-img .card-content{padding:16px}
+  .section-card-text{padding:20px 16px}
+  .section-card-text h2{font-size:18px}
+  .section-card-text p,.section-card-text ul{font-size:13px}
+  .ios-btn{padding:10px 18px;font-size:12px;margin-top:8px}
+  .ios-btn-row{gap:6px}
+  .prayer-quote{padding:28px 20px;font-size:14px;border-radius:16px}
+  .join-banner{padding:20px 16px;border-radius:16px}
+  .join-banner p{font-size:13px}
+  .image-grid{grid-template-columns:repeat(2,1fr);gap:6px}
+  .scroll-card{flex:0 0 220px}
+  .scroll-card img{height:130px}
+  .ios-footer{padding:32px 16px calc(24px + env(safe-area-inset-bottom,0px))}
+  .scroll-top{bottom:16px;right:16px;width:44px;height:44px}
+  .beta-banner{font-size:9px;padding:5px 0}
+}
+@media(max-width:380px){
+  .hero{min-height:65vh}
+  .hero h1{font-size:28px}
+  .hero-subtitle{font-size:14px}
+  .image-grid{grid-template-columns:1fr 1fr}
+  .scroll-card{flex:0 0 200px}
+  .ios-btn-row{flex-direction:column;align-items:stretch}
+  .ios-btn-row .ios-btn{text-align:center}
+}
+</style>
+</head>
+<body>
+<nav class="ios-nav" id="iosNav"><div class="ios-nav-inner"><button class="ios-nav-menu-btn" id="menuBtn" aria-label="Menu"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button><span class="ios-nav-title">SHINE CATHOLIC MEDIA MINISTRY</span></div></nav>
+<div class="beta-banner">BETA VERSION</div>
+<div class="ios-overlay" id="navOverlay"></div>
+<nav class="ios-sidebar" id="navSidebar"><div class="ios-sb-head"><div class="ios-sb-logo">&#10013;</div><div class="ios-sb-title">Shine Catholic<br>Media Ministry</div></div><div class="ios-sb-links"><a class="ios-sb-link" href="HOME.html">HOME</a><div class="ios-sb-group">Intercession</div><a class="ios-sb-link" href="Light A Candle.html">Light A Candle</a><a class="ios-sb-link" href="Prayer Wall.html">Prayer Wall</a><a class="ios-sb-link" href="Subscribe.html">Subscribe</a><div class="ios-sb-group">Events</div><a class="ios-sb-link" href="Our Lady Of Fatima Shrine Karjat.html">Our Lady Of Fatima Shrine, Karjat</a><a class="ios-sb-link" href="St Joseph Church Khandala.html">St. Joseph Church, Khandala</a><a class="ios-sb-link" href="Kids Section.html">Kids Section</a><div class="ios-sb-group">Media</div><a class="ios-sb-link" href="Linktree.html">Linktree</a><a class="ios-sb-link" href="ShineVoiceTV.html">ShineVoiceTV</a><div class="ios-sb-group">Resources</div><a class="ios-sb-link" href="Bible Verses.html">Holy Bible</a><a class="ios-sb-link" href="QAS.html">CCC</a><a class="ios-sb-link" href="Recent Posts.html">Test</a><a class="ios-sb-link" href="Calendar.html">Daily Liturgical Readings</a><a class="ios-sb-link" href="A Long Version.html">The Holy Order Of Mass</a><a class="ios-sb-link" href="Eucharistic Prayer I.html">Eucharistic Prayer I</a><a class="ios-sb-link" href="Eucharistic Prayer II.html">Eucharistic Prayer II</a><a class="ios-sb-link" href="Eucharistic Prayer III.html">Eucharistic Prayer III</a><a class="ios-sb-link" href="Eucharistic Prayer IV.html">Eucharistic Prayer IV</a><div class="ios-sb-group">Seasons</div><a class="ios-sb-link" href="Lent.html">Lent</a><a class="ios-sb-link" href="Way Of The Cross.html">Way Of The Cross</a><div class="ios-sb-group">Prayers</div><a class="ios-sb-link" href="Simple Prayers.html">Simple Prayers</a><a class="ios-sb-link" href="Confessions.html">Confessions</a><a class="ios-sb-link" href="1 Bronze Serpent Prayer.html">1. Bronze Serpent Prayer</a><a class="ios-sb-link" href="A Long Version.html">2. Morning Prayer - A. Long Version</a><a class="ios-sb-link" href="B Short Version.html">2. Morning Prayer - B. Short Version</a><a class="ios-sb-link" href="A Long Version_1.html">3. Evening Prayer - A. Long Version</a><a class="ios-sb-link" href="B Short Version_1.html">3. Evening Prayer - B. Short Version</a><a class="ios-sb-link" href="4 Prayer Before  After Meal.html">4. Prayer Before &amp; After Meal</a><a class="ios-sb-link" href="5 Prayer Before  After ClassStudy.html">5. Prayer Before &amp; After Class/Study</a><a class="ios-sb-link" href="6 Prayer In Time Of Sickness.html">6. Prayer In Time Of Sickness</a><a class="ios-sb-link" href="7 Prayer To The Guardian Angel.html">7. Prayer To The Guardian Angel</a><a class="ios-sb-link" href="8 Binding  Casting Out Prayer.html">8. Binding &amp; Casting Out Prayer</a><a class="ios-sb-link" href="9 Divine Mercy Chaplet 2nd.html">9. Divine Mercy Chaplet (2nd)</a><a class="ios-sb-link" href="10 Holy Intercessory Rosary.html">10. Holy Intercessory Rosary</a><div class="ios-sb-group">Other</div><a class="ios-sb-link" href="Novenas.html">Novenas</a><a class="ios-sb-link" href="Holy Rosary.html">Holy Rosary</a><div class="ios-sb-group">Services</div><a class="ios-sb-link" href="Wallpapers.html">Wallpapers</a><a class="ios-sb-link" href="Analytics.html">Analytics</a><div class="ios-sb-group">Promise Words</div><a class="ios-sb-link" href="Bible Verses.html">Bible Verses</a><div class="ios-sb-group">Testimony</div><a class="ios-sb-link" href="Testimonials.html">Testimonials</a><div class="ios-sb-group">Ministry AI</div><a class="ios-sb-link" href="Feedback.html">Spiritual Meetings</a><a class="ios-sb-link" href="Calendar.html">Calendar</a><a class="ios-sb-link" href="Videos.html">Videos</a><a class="ios-sb-link" href="Website Status.html">Website Status</a><a class="ios-sb-link" href="E-Books.html">E-Books</a><div class="ios-sb-group">About</div><a class="ios-sb-link" href="Shine Ministry.html">Shine Ministry</a><a class="ios-sb-link" href="ShineVoiceTV.html">ShineVoiceTV</a><a class="ios-sb-link" href="ShineMusic.html">ShineMusic</a><a class="ios-sb-link" href="Pope Leo XIV.html">Pope Leo XIV</a><a class="ios-sb-link" href="History.html">History</a><a class="ios-sb-link" href="Contact Us.html">Contact Us</a><a class="ios-sb-link" href="Feedback.html">Feedback</a><a class="ios-sb-link" href="QAS.html">QAS</a><div class="ios-sb-group">Legal Notice</div><a class="ios-sb-link" href="Terms  Conditions.html">Terms &amp; Conditions</a><a class="ios-sb-link" href="Privacy Policy.html">Privacy Policy</a></div></nav>
+
+<section class="hero" id="hero"><img class="hero-bg" src="HOME/bc15987a767e76ef3c9b921e10d8106a.jpg" alt="Divine Mercy" loading="eager"><div class="hero-overlay"></div><div class="hero-content"><div class="hero-badge">SHINE MINISTRY (INDIA) OFFICIAL SPIRITUAL SITE!</div><h1>ENCOUNTER GOD ALMIGHTY</h1><p class="hero-subtitle">Welcome to Shine Ministry Official Web!</p></div><div class="hero-scroll"><svg viewBox="0 0 24 24"><path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"/></svg></div></section>
+
+<section class="typewriter-section"><div class="typewriter-card animate-on-scroll"><div class="typewriter-text" id="typewriterText">Welcome to Shine Ministry Official Web!<span class="typewriter-cursor"></span></div></div></section>
+
+<div class="site-layout">
+<div class="site-main">
+
+<section class="content-section"><div class="join-banner animate-on-scroll"><p>JOIN US AT SHINE MINISTRY, WHERE MIRACLES MANIFEST, CHAINS ARE SHATTERED, AND LIVES ARE RENEWED BEYOND MEASURE.</p></div></section>
+
+<section class="content-section">
+<div class="section-header animate-on-scroll"><h2>Featured Moments</h2><p>A glimpse into our spiritual journey</p></div>
+<div class="image-grid animate-on-scroll">
+<div class="image-grid-item"><img src="HOME/c0595e4d7364a8aeaceab119232766dd.jpg" alt="Prayer"><div class="grid-overlay"></div><div class="grid-label">Prayer Warriors</div></div>
+<div class="image-grid-item"><img src="HOME/b1eda5124225934ed032d62cafa9fb11.jpg" alt="Worship"><div class="grid-overlay"></div><div class="grid-label">Divine Worship</div></div>
+<div class="image-grid-item"><img src="HOME/9c2a643e80694ceaf60d1d34b7008ac5.jpg" alt="Faith"><div class="grid-overlay"></div><div class="grid-label">Living Faith</div></div>
+<div class="image-grid-item"><img src="HOME/92e7b58627f0c5758217230f244908ec.jpg" alt="Grace"><div class="grid-overlay"></div><div class="grid-label">Grace of God</div></div>
+<div class="image-grid-item"><img src="HOME/8788636413cbc3df25c17fcd63a81e66.jpg" alt="Community"><div class="grid-overlay"></div><div class="grid-label">Community</div></div>
+<div class="image-grid-item"><img src="HOME/84ebab2e2afcbe5c12799ea7053f02cd.jpg" alt="Renewal"><div class="grid-overlay"></div><div class="grid-label">Spiritual Renewal</div></div>
+</div>
+</section>
+
+<section class="content-section"><div class="section-card animate-on-scroll"><div class="section-card-img" style="min-height:200px"><img src="Novenas/04ac5892d08787cd7bc1c5009223519f.jpg" alt="Readings"><div class="card-gradient"></div><div class="card-content"><h2>LITURGICAL READINGS OF THE DAY</h2><a href="Calendar.html" class="ios-btn ios-btn-white" style="margin-top:8px">Click Here</a></div></div></div></section>
+
+<section class="content-section">
+<div class="section-header animate-on-scroll"><h2>Daily Devotionals</h2><p>Strengthen your faith every day</p></div>
+<div class="scroll-row animate-on-scroll">
+<div class="scroll-card"><img src="Novenas/f7d8a3d1e100c7585406a140329a2ae8.jpg" alt="Novenas"><div class="card-body"><h3>Sacred Novenas</h3><p>Traditional nine-day prayers for special intentions and deep devotion.</p></div></div>
+<div class="scroll-card"><img src="Novenas/eb91be0c597eddbb9cfe0f19672c2314.jpg" alt="Divine Mercy"><div class="card-body"><h3>Divine Mercy</h3><p>Experience the boundless mercy of Christ through chaplet and adoration.</p></div></div>
+<div class="scroll-card"><img src="Novenas/cecae1282b4a3b225bb64d4054804651.jpg" alt="Eucharist"><div class="card-body"><h3>Eucharistic Adoration</h3><p>Spend quiet moments in the presence of the Blessed Sacrament.</p></div></div>
+<div class="scroll-card"><img src="Novenas/b8fba487ac15163fab4d1ab3af2f6ee0.jpg" alt="Rosary"><div class="card-body"><h3>The Holy Rosary</h3><p>Meditate on the mysteries of faith with our Blessed Mother.</p></div></div>
+<div class="scroll-card"><img src="Novenas/9bbbeee2d9fdddefd43234710a788963.jpg" alt="Scripture"><div class="card-body"><h3>Scripture Reflections</h3><p>Deepen your understanding of God's Word through daily readings.</p></div></div>
+</div>
+</section>
+
+<section class="content-section"><div class="section-card animate-on-scroll"><div class="section-card-img" style="min-height:260px"><img src="Novenas/06402d47917d77aa2d016524c4f83d1f.jpg" alt="Rosary"><div class="card-gradient"></div><div class="card-content"><h2>THE HOLY ROSARY</h2><div class="ios-btn-row" style="justify-content:flex-start"><a href="Holy Rosary.html" class="ios-btn ios-btn-white">Joyful Mysteries</a><a href="Holy Rosary.html" class="ios-btn ios-btn-white">Luminous Mysteries</a></div><div class="ios-btn-row" style="justify-content:flex-start"><a href="Holy Rosary.html" class="ios-btn ios-btn-white">Sorrowful Mysteries</a><a href="Holy Rosary.html" class="ios-btn ios-btn-white">Glorious Mysteries</a></div></div></div></div></section>
+
+<section class="content-section"><div class="section-card animate-on-scroll"><div class="section-card-img" style="min-height:300px"><img src="Novenas/146366a1100b1a86126710cefbe67fe2.jpg" alt="Welcome"><div class="card-gradient"></div><div class="card-content"><h2>Welcome to Our Spiritual Sanctuary!</h2><p>Greetings, dear visitors! I'm Shineil Keith Mathias, a devoted Prayer Warrior from India, and I'm honored to have you here.</p><p>Thank you for visiting our website! Here, you'll discover a wealth of resources for deepening your spiritual journey.</p></div></div><div class="section-card-text"><h3>Explore Our Rich Collection of Prayers:</h3><ul><li><strong>Common Prayers:</strong> Foundational prayers after Personal Prayers.</li><li><strong>Personal Prayers:</strong> Tailored prayers for your individual needs.</li><li><strong>Special Prayers:</strong> Prayers in case of emergency.</li><li><strong>S.E.P.:</strong> Prayer to strike down enemies of humanity.</li><li><strong>Novenas:</strong> Traditional prayers offered over nine days for special intentions.</li><li><strong>Other Prayers:</strong> A diverse selection for various aspects of spiritual life.</li></ul><p><em>(Note: These prayers have been graciously provided by Fr. John Jose Vettiyankal VC and Fr. Allwyn Misquittav SDB.)</em></p></div></div></section>
+
+<section class="content-section">
+<div class="section-header animate-on-scroll"><h2>Way of the Cross</h2><p>Walk with Christ through His sacred Passion</p></div>
+<div class="scroll-row animate-on-scroll">
+<div class="scroll-card"><img src="Way Of The Cross/11257f3a7c04a3e29709a24743d742dc.jpg" alt="Station 1"><div class="card-body"><h3>First Station</h3><p>Jesus is condemned to death.</p></div></div>
+<div class="scroll-card"><img src="Way Of The Cross/28c24d534dafeaadb723d57f023b9b95.jpg" alt="Station 2"><div class="card-body"><h3>Second Station</h3><p>Jesus carries His cross.</p></div></div>
+<div class="scroll-card"><img src="Way Of The Cross/48fa600848ac2fd584c31fee67beb61f.jpg" alt="Station 3"><div class="card-body"><h3>Third Station</h3><p>Jesus falls the first time.</p></div></div>
+<div class="scroll-card"><img src="Way Of The Cross/52956ab39574e25a0221581af2f36366.jpg" alt="Station 4"><div class="card-body"><h3>Fourth Station</h3><p>Jesus meets His mother.</p></div></div>
+<div class="scroll-card"><img src="Way Of The Cross/71c414e3adb1c453a2380b3317918bf7.jpg" alt="Station 5"><div class="card-body"><h3>Fifth Station</h3><p>Simon helps carry the cross.</p></div></div>
+<div class="scroll-card"><img src="Way Of The Cross/8be4514afc3b0e1976fc5900ad49e383.jpg" alt="Station 6"><div class="card-body"><h3>Sixth Station</h3><p>Veronica wipes the face of Jesus.</p></div></div>
+</div>
+</section>
+
+<section class="content-section"><div class="section-card animate-on-scroll"><div class="section-card-text"><h2>How to Navigate:</h2><p style="text-align:center">To explore all the prayers and resources, simply click on the 'Three-Dashes' icon at the top-left corner of your screen.</p></div></div></section>
+
+<section class="content-section">
+<div class="section-header animate-on-scroll"><h2>Spiritual Wallpapers</h2><p>Beautiful images to inspire your faith</p></div>
+<div class="image-grid animate-on-scroll">
+<div class="image-grid-item"><img src="Wallpapers/f36529f1b4a97fc2a1d85ae90a7e9d1a.jpg" alt="Wallpaper"><div class="grid-overlay"></div><div class="grid-label">Faith</div></div>
+<div class="image-grid-item"><img src="Wallpapers/c96b2e777a13ef0237b951343f771adb.jpg" alt="Wallpaper"><div class="grid-overlay"></div><div class="grid-label">Hope</div></div>
+<div class="image-grid-item"><img src="Wallpapers/759221a6cccebd66660671a5e43fae1f.jpg" alt="Wallpaper"><div class="grid-overlay"></div><div class="grid-label">Love</div></div>
+</div>
+<div style="text-align:center;margin-top:8px" class="animate-on-scroll"><a href="Wallpapers.html" class="ios-btn ios-btn-primary">View All Wallpapers</a></div>
+</section>
+
+<section class="content-section"><div class="section-card animate-on-scroll"><div class="section-card-img" style="min-height:240px"><img src="Novenas/210869a47dee1068b1a3d7bb20bf8c7b.jpg" alt="Video"><div class="card-gradient"></div><div class="card-content"><h2>A Special Note for You:</h2><p>Before diving into the content, take a moment to watch the introductory video below (Tour To This Website). It provides a comprehensive tour of our website and offers insights into the different types of prayers available.</p><p style="font-weight:600;margin-top:10px">Blessings and Peace,<br>Shineil Keith Mathias,<br>Shine Ministry - India.</p></div></div></div></section>
+
+<section class="content-section">
+<div class="section-header animate-on-scroll"><h2>ShineMusic</h2><p>Songs of praise and worship</p></div>
+<div class="scroll-row animate-on-scroll">
+<div class="scroll-card"><img src="ShineMusic/e381f186da08cdb0cbd7a63d757589ba.jpg" alt="Music"><div class="card-body"><h3>Holy Adoration</h3><p>Worship songs for Eucharistic adoration.</p></div></div>
+<div class="scroll-card"><img src="ShineMusic/a79f6e08d9b3dda8c95925f684898e0a.jpg" alt="Music"><div class="card-body"><h3>Praise & Worship</h3><p>Songs that lift your spirit to heaven.</p></div></div>
+<div class="scroll-card"><img src="ShineMusic/67c0815f20641819ee48c74c22071885.jpg" alt="Music"><div class="card-body"><h3>Marian Hymns</h3><p>Beautiful hymns dedicated to our Blessed Mother.</p></div></div>
+<div class="scroll-card"><img src="ShineMusic/1b719c68d17f20fdd963d70977156c0e.jpg" alt="Music"><div class="card-body"><h3>Christmas Carols</h3><p>Celebrate the birth of our Savior with joy.</p></div></div>
+</div>
+<div style="text-align:center;margin-top:8px" class="animate-on-scroll"><a href="ShineMusic.html" class="ios-btn ios-btn-primary">Explore ShineMusic</a></div>
+</section>
+
+<section class="content-section"><div class="section-card animate-on-scroll"><div class="section-card-text"><div class="ios-btn-row"><a href="Calendar.html" class="ios-btn ios-btn-primary">LITURGICAL CALENDAR</a><a href="Videos.html" class="ios-btn ios-btn-primary">TOUR TO THIS WEBSITE</a></div><a href="https://www.youtube.com/@shinevoicetv23" target="_blank" class="ios-btn" style="margin-top:8px">CLICK ME</a></div></div></section>
+
+<section class="content-section"><div class="prayer-quote animate-on-scroll">"For The Sake Of Jesus' Sorrowful Passion, Abba Father, Have Mercy On Us And On The Whole World And On Lampstians And Their Intentions!"</div></section>
+
+<section class="content-section">
+<div class="section-header animate-on-scroll"><h2>E-Books Library</h2><p>Read and grow in your faith</p></div>
+<div class="scroll-row animate-on-scroll">
+<div class="scroll-card"><img src="E-Books/f09eae78ab0629212d99759619c42810.jpg" alt="E-Book"><div class="card-body"><h3>Spiritual Classics</h3><p>Timeless writings of the saints and Church fathers.</p></div></div>
+<div class="scroll-card"><img src="E-Books/9c6f7b4ec312ac30e268996ce68d3354.jpg" alt="E-Book"><div class="card-body"><h3>Prayer Guides</h3><p>Step-by-step guides for deeper prayer life.</p></div></div>
+<div class="scroll-card"><img src="E-Books/9beb218f8946dc8036ab822aebba376b.jpg" alt="E-Book"><div class="card-body"><h3>Bible Studies</h3><p>Comprehensive studies for personal and group use.</p></div></div>
+<div class="scroll-card"><img src="E-Books/6b2f97198cbd88d04c00cbe3ecfcbf96.jpg" alt="E-Book"><div class="card-body"><h3>Devotional Books</h3><p>Books for daily meditation and reflection.</p></div></div>
+</div>
+<div style="text-align:center;margin-top:8px" class="animate-on-scroll"><a href="E-Books.html" class="ios-btn ios-btn-primary">Browse E-Books</a></div>
+</section>
+
+<section class="content-section"><div class="section-card animate-on-scroll"><div class="section-card-img" style="min-height:200px"><img src="Novenas/43fb67588a06816ba47b8f4f53eb77e3.jpg" alt="Saint"><div class="card-gradient"></div><div class="card-content"><h2>SAINT OF THE DAY</h2><a href="https://www.google.com/search?q=saint+of+the+day+today" target="_blank" class="ios-btn ios-btn-white" style="margin-top:8px">Click Here</a></div></div></div></section>
+
+<section class="content-section"><div class="section-card animate-on-scroll"><div class="section-card-text"><h2>SHINE MINISTRY (INDIA)!</h2><a href="Shine Ministry.html" class="ios-btn ios-btn-primary" style="margin-top:8px">KNOW MORE!</a></div></div></section>
+
+<section class="content-section">
+<div class="section-header animate-on-scroll"><h2>Our Churches</h2><p>Sacred places of worship</p></div>
+<div class="image-grid animate-on-scroll">
+<div class="image-grid-item"><img src="St Joseph Church Khandala/fc90b384ad327f9bba83854cffb782ce.jpg" alt="Church"><div class="grid-overlay"></div><div class="grid-label">St. Joseph Church</div></div>
+<div class="image-grid-item"><img src="St Joseph Church Khandala/e9fbc7f6a389259dc5856daa0b5fc193.jpg" alt="Church"><div class="grid-overlay"></div><div class="grid-label">Khandala</div></div>
+<div class="image-grid-item"><img src="St Joseph Church Khandala/e1d01a780bb3cf7cf1ac33388987fc03.jpg" alt="Church"><div class="grid-overlay"></div><div class="grid-label">Our Lady of Fatima</div></div>
+</div>
+<div style="text-align:center;margin-top:8px" class="animate-on-scroll"><a href="St Joseph Church Khandala.html" class="ios-btn ios-btn-primary">Visit Our Churches</a></div>
+</section>
+
+<section class="content-section"><div class="section-card animate-on-scroll" style="padding:0;overflow:hidden;border-radius:20px"><iframe src="https://lookerstudio.google.com/embed/reporting/eec9347d-c7c9-4038-b6de-239a2cee0ec8/page/SN4dE" style="border:0;width:100%;height:400px" allowfullscreen></iframe></div></section>
+
+</div>
+
+<aside class="site-ad-sidebar">
+<div class="site-ad-sticky">
+<div class="ad-container">
+<span class="ad-label">Advertisement</span>
+<ins class="CANBMDDisplayAD" data-bmd-ad-unit="1334238920260423T1127266101F30B5CAA60B4413AE400ABF4FE9CF4E" style="display:block;width:100%;min-height:250px"></ins>
+</div>
+</div>
+</aside>
+</div>
+
+<footer class="ios-footer">
+<div class="footer-grid">
+<div class="footer-col">
+<div class="footer-section"><div class="footer-heading">MR. SHINEIL KEITH MATHIAS</div></div>
+<div class="footer-section"><div class="footer-subheading">Contact Us - Intercession</div><div class="footer-text">Mobile: (+91 9370750143)</div><div class="footer-text">Email: shineministryrp@gmail.com</div><div class="footer-text">Email: shinuspirituality2024@gmail.com</div><div class="footer-text">House No. 51, Shivaji Peth, Lonavla-Khandala, Pune, Maharashtra, India - 410 301.</div><a href="https://maps.app.goo.gl/ngLedv65pgWJtRst6" target="_blank" class="footer-link">View on Map</a></div>
+<div class="footer-section"><div class="footer-subheading">Social Links</div><div class="footer-social"><a href="https://www.youtube.com/@shinevoicetv23" target="_blank" class="footer-social-link"><img src="d03d6c65c37607f5e2a0996d90a8780a.jpg" alt="YouTube"></a><a href="https://wa.me/+918605586173" target="_blank" class="footer-social-link"><img src="87334e8e8bee22ad998cb61c227f2940.jpg" alt="WhatsApp"></a><a href="https://threads.net/shinevoicetv23" target="_blank" class="footer-social-link"><img src="128fdbc9964023430a6d2a1fc7a0f07c.jpg" alt="Threads"></a><a href="https://www.facebook.com/profile.php?id=61561107041919" target="_blank" class="footer-social-link"><img src="0e61057be89e01bccb1833dd9eab9c4b.jpg" alt="Facebook"></a><a href="https://www.instagram.com/shinevoicetv23" target="_blank" class="footer-social-link"><img src="1e2c96e97dc82dbfcb20e9401fea99fe.jpg" alt="Instagram"></a></div></div>
+</div>
+<div class="footer-col">
+<div class="footer-section"><div class="footer-heading">Quick Links</div></div>
+<div class="footer-section"><div class="footer-subheading">Resources</div><a href="Calendar.html" class="footer-link">Daily Readings</a><a href="Bible Verses.html" class="footer-link">Holy Bible</a><a href="Holy Rosary.html" class="footer-link">Holy Rosary</a><a href="Novenas.html" class="footer-link">Novenas</a><a href="Simple Prayers.html" class="footer-link">Simple Prayers</a><a href="Confessions.html" class="footer-link">Confessions</a></div>
+<div class="footer-section"><div class="footer-subheading">Ministry</div><a href="Shine Ministry.html" class="footer-link">About Us</a><a href="ShineVoiceTV.html" class="footer-link">ShineVoiceTV</a><a href="ShineMusic.html" class="footer-link">ShineMusic</a><a href="Wallpapers.html" class="footer-link">Wallpapers</a><a href="E-Books.html" class="footer-link">E-Books</a><a href="Testimonials.html" class="footer-link">Testimonials</a></div>
+<div class="footer-section"><div class="footer-subheading">Other Spiritual Websites</div><a href="https://www.vatican.va" target="_blank" class="footer-button">Vatican</a><a href="https://www.thedivinemercy.org" target="_blank" class="footer-button">Divine Mercy</a></div>
+</div>
+</div>
+<div class="footer-bottom">
+<div class="footer-copyright">Shine Catholic Media Ministry &copy; 2024. All rights reserved.</div>
+<div class="footer-copyright" style="margin-top:4px">Designed with &#10084; for the glory of God.</div>
+</div>
+<!-- CatholicAdnet Site Tag -->
+<ins class="CANBMDDisplayAD" data-bmd-ad-unit="1334238920260423T1127266101F30B5CAA60B4413AE400ABF4FE9CF4E" style="display:block"></ins>
+<script src="https://secureaddisplay.com/au/bmd/"></script>
+<!-- /CatholicAdnet Site Tag -->
+</footer>
+
+<div class="scroll-top" id="scrollTop"><svg viewBox="0 0 24 24"><path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"/></svg></div>
+<script>
+(function(){var menuBtn=document.getElementById('menuBtn');var overlay=document.getElementById('navOverlay');var sidebar=document.getElementById('navSidebar');function openNav(){overlay.classList.add('open');sidebar.classList.add('open')}function closeNav(){overlay.classList.remove('open');sidebar.classList.remove('open')}if(menuBtn)menuBtn.addEventListener('click',openNav);if(overlay)overlay.addEventListener('click',closeNav);document.querySelectorAll('.ios-sb-link').forEach(function(l){l.addEventListener('click',closeNav)})})();
+(function(){var sentences=["In Creation (<i>Romans 1:20</i>)","In Prayer (<i>Jeremiah 29:12</i>)","In Worship (<i>Psalm 22:3</i>)","In Silence (<i>Psalm 46:10</i>)","Through The Word (<i>Hebrews 4:12</i>)","In Fasting (<i>Joel 2:12</i>)","Through The Holy Spirit (<i>John 16:13</i>)","In Trials And Tribulations (<i>James 1:2-3</i>)","In Healing (<i>Exodus 15:26</i>)","In Dreams (<i>Genesis 28:12-13</i>)","In Nature (<i>Psalm 19:1</i>)","In The Church (<i>Matthew 18:20</i>)","In Community (<i>Acts Of the Apostles 2:42</i>)","In Service (<i>Matthew 25:40</i>)","Through His Promises (<i>2 Corinthians 1:20</i>)","In Repentance (<i>Isaiah 1:18</i>)","In Obedience (<i>Deuteronomy 28:1</i>)","In The Sacraments (<i>Luke 22:19</i>)","In Sacrifice (<i>Romans 12:1</i>)","In The Breakthrough (<i>2 Samuel 5:20</i>)"];var el=document.getElementById("typewriterText");var si=0,ci=0,typing=true;function tick(){if(typing){if(ci<sentences[si].length){ci++;el.innerHTML=sentences[si].substring(0,ci)+'<span class="typewriter-cursor"></span>';setTimeout(tick,80)}else{setTimeout(function(){typing=false;tick()},1500)}}else{if(ci>0){ci--;el.innerHTML=sentences[si].substring(0,ci)+'<span class="typewriter-cursor"></span>';setTimeout(tick,40)}else{typing=true;si=(si+1)%sentences.length;setTimeout(tick,400)}}}if(el)tick()})();
+(function(){var nav=document.getElementById('iosNav');var btn=document.getElementById('scrollTop');var hero=document.getElementById('hero');window.addEventListener('scroll',function(){var y=window.scrollY;nav.classList.toggle('scrolled',y>40);btn.classList.toggle('visible',y>400);if(hero){hero.classList.toggle('loaded',y>100)}},{passive:true});btn.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'})});setTimeout(function(){if(hero)hero.classList.add('loaded')},100)})();
+(function(){var observer=new IntersectionObserver(function(entries){entries.forEach(function(entry){if(entry.isIntersecting){entry.target.classList.add('visible');observer.unobserve(entry.target)}})},{threshold:0.1,rootMargin:'0px 0px -50px 0px'});document.querySelectorAll('.animate-on-scroll').forEach(function(el){observer.observe(el)})})();
+</script>
+</body>
+</html>
