@@ -21,13 +21,25 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'SF Pro Display','Helvetica Neue',Helvetica,Arial,sans-serif;background:#f6f6f6;color:#223547;-webkit-font-smoothing:antialiased;overflow-x:hidden;-webkit-text-size-adjust:100%}
+/* ANIMATIONS */
 @keyframes fadeInUp{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:translateY(0)}}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
 @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
 @keyframes slideDown{from{opacity:0;transform:translateY(-20px)}to{opacity:1;transform:translateY(0)}}
 @keyframes blink{0%,50%{opacity:1}51%,100%{opacity:0}}
+@keyframes slideInLeft{from{opacity:0;transform:translateX(-40px)}to{opacity:1;transform:translateX(0)}}
+@keyframes slideInRight{from{opacity:0;transform:translateX(40px)}to{opacity:1;transform:translateX(0)}}
+@keyframes scaleIn{from{opacity:0;transform:scale(0.9)}to{opacity:1;transform:scale(1)}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
 .animate-on-scroll{opacity:0;transform:translateY(40px);transition:opacity 0.8s ease,transform 0.8s ease}
 .animate-on-scroll.visible{opacity:1;transform:translateY(0)}
+.animate-slide-left{opacity:0;transform:translateX(-40px);transition:opacity 0.8s ease,transform 0.8s ease}
+.animate-slide-left.visible{opacity:1;transform:translateX(0)}
+.animate-slide-right{opacity:0;transform:translateX(40px);transition:opacity 0.8s ease,transform 0.8s ease}
+.animate-slide-right.visible{opacity:1;transform:translateX(0)}
+.animate-scale{opacity:0;transform:scale(0.9);transition:opacity 0.8s ease,transform 0.8s ease}
+.animate-scale.visible{opacity:1;transform:scale(1)}
+.animate-float{animation:float 3s ease-in-out infinite}
 
 /* NAV */
 .ios-nav{position:fixed;top:0;left:0;right:0;height:60px;background:rgba(255,255,255,0.97);-webkit-backdrop-filter:saturate(180%) blur(20px);backdrop-filter:saturate(180%) blur(20px);z-index:1000;border-bottom:1px solid rgba(34,53,71,0.08);transition:all 0.3s;box-shadow:0 1px 3px rgba(0,0,0,0.04)}
@@ -104,11 +116,19 @@ body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'SF Pro Display','Helv
 /* HORIZONTAL SCROLL CARDS */
 .scroll-row{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;padding:4px 0 12px;scrollbar-width:none}
 .scroll-row::-webkit-scrollbar{display:none}
-.scroll-card{flex:0 0 260px;scroll-snap-start;border-radius:16px;overflow:hidden;background:#fff;box-shadow:0 4px 20px rgba(34,53,71,0.08);position:relative}
-.scroll-card img{width:100%;height:160px;object-fit:cover}
+.scroll-card{flex:0 0 260px;scroll-snap-start;border-radius:16px;overflow:hidden;background:#fff;box-shadow:0 4px 20px rgba(34,53,71,0.08);position:relative;transition:transform 0.3s ease,box-shadow 0.3s ease}
+.scroll-card:hover{transform:translateY(-4px);box-shadow:0 8px 32px rgba(34,53,71,0.12)}
+.scroll-card img{width:100%;height:160px;object-fit:cover;transition:transform 0.4s ease}
+.scroll-card:hover img{transform:scale(1.05)}
 .scroll-card .card-body{padding:14px}
 .scroll-card .card-body h3{font-family:'Playfair Display',Georgia,serif;font-size:15px;font-weight:600;color:#223547;margin-bottom:4px}
 .scroll-card .card-body p{font-size:12px;color:#353535;line-height:1.5}
+
+/* SECTION CARD HOVER */
+.section-card{transition:transform 0.3s ease,box-shadow 0.3s ease}
+.section-card:hover{transform:translateY(-4px);box-shadow:0 12px 40px rgba(34,53,71,0.12)}
+.section-card-img img{transition:transform 0.6s ease}
+.section-card:hover .section-card-img img{transform:scale(1.03)}
 
 /* BUTTONS */
 .ios-btn{display:inline-block;padding:11px 22px;background:rgba(36,98,156,0.08);border:1px solid rgba(36,98,156,0.2);border-radius:100px;color:#24629C;font-size:13px;font-weight:600;text-align:center;text-decoration:none;transition:all 0.3s ease;margin-top:10px;-webkit-tap-highlight-color:transparent}
@@ -121,10 +141,20 @@ body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'SF Pro Display','Helv
 .ios-btn-white:hover{background:#f6f6f6;box-shadow:0 4px 16px rgba(0,0,0,0.1)}
 
 /* SPECIAL */
-.prayer-quote{background:linear-gradient(135deg,#2A3A4A,#223547);color:#fff;border-radius:20px;padding:36px 24px;text-align:center;font-size:15px;font-weight:400;line-height:1.8;font-style:italic;margin-bottom:12px;box-shadow:0 8px 40px rgba(34,53,71,0.3);position:relative;overflow:hidden}
+.prayer-quote{background:linear-gradient(135deg,#2A3A4A,#223547);color:#fff;border-radius:20px;padding:36px 24px;text-align:center;font-size:15px;font-weight:400;line-height:1.8;font-style:italic;margin-bottom:12px;box-shadow:0 8px 40px rgba(34,53,71,0.3);position:relative;overflow:hidden;transition:transform 0.3s ease,box-shadow 0.3s ease}
+.prayer-quote:hover{transform:translateY(-4px);box-shadow:0 12px 48px rgba(34,53,71,0.35)}
 .prayer-quote::before{content:'\201C';position:absolute;top:-20px;left:16px;font-size:120px;font-family:'Playfair Display',Georgia,serif;opacity:0.1;line-height:1}
-.join-banner{background:linear-gradient(135deg,rgba(36,98,156,0.06),rgba(34,53,71,0.04));border-radius:20px;padding:24px 20px;margin-bottom:12px;text-align:center}
+.join-banner{background:linear-gradient(135deg,rgba(36,98,156,0.06),rgba(34,53,71,0.04));border-radius:20px;padding:24px 20px;margin-bottom:12px;text-align:center;transition:transform 0.3s ease}
+.join-banner:hover{transform:translateY(-2px)}
 .join-banner p{font-weight:600;color:#24629C;font-size:14px;letter-spacing:0.02em;line-height:1.6}
+
+/* LOADING ANIMATION */
+.page-loader{position:fixed;inset:0;background:#fff;z-index:9999;display:flex;align-items:center;justify-content:center;transition:opacity 0.5s ease}
+.page-loader.hidden{opacity:0;pointer-events:none}
+.loader-cross{width:40px;height:40px;position:relative;animation:float 2s ease-in-out infinite}
+.loader-cross::before,.loader-cross::after{content:'';position:absolute;background:#24629C;border-radius:4px}
+.loader-cross::before{width:8px;height:40px;left:16px;top:0}
+.loader-cross::after{width:40px;height:8px;left:0;top:16px}
 
 /* SECTION HEADER */
 .section-header{text-align:center;margin-bottom:12px}
@@ -204,6 +234,7 @@ body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'SF Pro Display','Helv
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%2324629C'/%3E%3Cpath d='M50 15v70M15 50h70' stroke='white' stroke-width='10' stroke-linecap='round'/%3E%3C/svg%3E">
 </head>
 <body>
+<div class="page-loader" id="pageLoader"><div class="loader-cross"></div></div>
 <nav class="ios-nav" id="iosNav"><div class="ios-nav-inner"><button class="ios-nav-menu-btn" id="menuBtn" aria-label="Menu"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button><span class="ios-nav-title">SHINE CATHOLIC MEDIA MINISTRY</span></div></nav>
 <div class="beta-banner">BETA VERSION</div>
 <div class="ios-overlay" id="navOverlay"></div>
@@ -240,32 +271,58 @@ body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'SF Pro Display','Helv
 
 <section class="content-section">
 <div class="section-header animate-on-scroll"><h2>Holy Bible</h2><p>Read and reflect on God's Word</p></div>
-<div style="text-align:center" class="animate-on-scroll"><a href="Bible Verses.html" class="ios-btn ios-btn-primary">Read Bible Verses</a></div>
+<div class="section-card animate-on-scroll"><div class="section-card-text">
+<h3>Explore Bible Verses by Category:</h3>
+<ul>
+<li><strong>Family:</strong> God's guidance for family life and relationships.</li>
+<li><strong>Finances:</strong> Biblical wisdom for stewardship and provision.</li>
+<li><strong>Enemies:</strong> Prayers and verses for spiritual warfare.</li>
+<li><strong>Inner Healing:</strong> Comfort for emotional and spiritual wounds.</li>
+<li><strong>Physical Healing:</strong> Faith-filled verses for health and restoration.</li>
+<li><strong>Holy Spirit:</strong> Inviting the Spirit's guidance and power.</li>
+</ul>
+<div style="text-align:center;margin-top:12px"><a href="Bible Verses.html" class="ios-btn ios-btn-primary">Read Bible Verses</a></div>
+</div></div>
 </section>
 
 <section class="content-section">
 <div class="section-header animate-on-scroll"><h2>Novenas</h2><p>Traditional nine-day prayers for special intentions</p></div>
-<div style="text-align:center" class="animate-on-scroll"><a href="Novenas.html" class="ios-btn ios-btn-primary">View Novenas</a></div>
+<div class="section-card animate-on-scroll"><div class="section-card-text">
+<h3>Featured Novenas:</h3>
+<ul>
+<li><strong>Divine Mercy:</strong> Trust in God's infinite mercy.</li>
+<li><strong>Infant Jesus:</strong> Devotion to the Child Jesus.</li>
+<li><strong>Mother of Perpetual Help:</strong> Seek Our Mother's intercession.</li>
+<li><strong>St. Michael:</strong> Protection through the Archangel.</li>
+<li><strong>St. Anthony:</strong> Finder of lost items and graces.</li>
+<li><strong>St. Jude:</strong> Patron of hopeless cases.</li>
+<li><strong>St. Padre Pio:</strong> Intercession of the stigmatist saint.</li>
+</ul>
+<div style="text-align:center;margin-top:12px"><a href="Novenas.html" class="ios-btn ios-btn-primary">View All Novenas</a></div>
+</div></div>
 </section>
 
 <section class="content-section">
-<div class="section-header animate-on-scroll"><h2>Simple Prayers</h2><p>Everyday prayers for all occasions</p></div>
-<div style="text-align:center" class="animate-on-scroll"><a href="Simple Prayers.html" class="ios-btn ios-btn-primary">View Prayers</a></div>
+<div class="section-header animate-on-scroll"><h2>Prayer Collections</h2><p>Find the right prayer for every moment</p></div>
+<div class="scroll-row animate-on-scroll">
+<div class="scroll-card"><div class="card-body"><h3>Simple Prayers</h3><p>Everyday prayers for all occasions - morning, evening, meals, and more.</p><a href="Simple Prayers.html" class="ios-btn" style="margin-top:8px">View Prayers</a></div></div>
+<div class="scroll-card"><div class="card-body"><h3>Confessions</h3><p>Prayers of repentance and reconciliation for spiritual renewal.</p><a href="Confessions.html" class="ios-btn" style="margin-top:8px">View Confessions</a></div></div>
+<div class="scroll-card"><div class="card-body"><h3>Holy Rosary</h3><p>Meditate on the Joyful, Luminous, Sorrowful, and Glorious Mysteries.</p><a href="Holy Rosary.html" class="ios-btn" style="margin-top:8px">Pray the Rosary</a></div></div>
+<div class="scroll-card"><div class="card-body"><h3>Way of the Cross</h3><p>Walk with Christ through His sacred Passion in 14 Stations.</p><a href="Way Of The Cross.html" class="ios-btn" style="margin-top:8px">View Stations</a></div></div>
+</div>
 </section>
 
 <section class="content-section">
-<div class="section-header animate-on-scroll"><h2>Confessions</h2><p>Prayers of repentance and reconciliation</p></div>
-<div style="text-align:center" class="animate-on-scroll"><a href="Confessions.html" class="ios-btn ios-btn-primary">View Confessions</a></div>
+<div class="section-header animate-on-scroll"><h2>ShineVoiceTV</h2><p>Spiritual videos and teachings</p></div>
+<div class="section-card animate-on-scroll"><div class="section-card-img" style="min-height:200px"><img src="ShineVoiceTV/7092cae60020c3656792130da2c7baeb.jpg" alt="ShineVoiceTV"><div class="card-gradient"></div><div class="card-content"><h2>Watch & Be Inspired</h2><p>Explore our collection of spiritual videos, teachings, and devotional content on YouTube.</p><a href="ShineVoiceTV.html" class="ios-btn ios-btn-white" style="margin-top:8px">Visit ShineVoiceTV</a></div></div></div>
 </section>
 
 <section class="content-section">
-<div class="section-header animate-on-scroll"><h2>ShineVoiceTV</h2><p>Watch our spiritual video content</p></div>
-<div style="text-align:center" class="animate-on-scroll"><a href="ShineVoiceTV.html" class="ios-btn ios-btn-primary">Visit ShineVoiceTV</a></div>
-</section>
-
-<section class="content-section">
-<div class="section-header animate-on-scroll"><h2>Testimonials</h2><p>Read stories of faith and transformation</p></div>
-<div style="text-align:center" class="animate-on-scroll"><a href="Testimonials.html" class="ios-btn ios-btn-primary">View Testimonials</a></div>
+<div class="section-header animate-on-scroll"><h2>Testimonials</h2><p>Stories of faith and transformation</p></div>
+<div class="section-card animate-on-scroll"><div class="section-card-text">
+<p>Read how Shine Ministry has touched lives and brought people closer to God through prayer, intercession, and devotion.</p>
+<div style="text-align:center;margin-top:12px"><a href="Testimonials.html" class="ios-btn ios-btn-primary">Read Testimonials</a></div>
+</div></div>
 </section>
 
 <section class="content-section"><div class="section-card animate-on-scroll"><div class="section-card-img" style="min-height:240px"><img src="Novenas/210869a47dee1068b1a3d7bb20bf8c7b.jpg" alt="Video"><div class="card-gradient"></div><div class="card-content"><h2>A Special Note for You:</h2><p>Before diving into the content, take a moment to watch the introductory video below (Tour To This Website). It provides a comprehensive tour of our website and offers insights into the different types of prayers available.</p><p style="font-weight:600;margin-top:10px">Blessings and Peace,<br>Shineil Keith Mathias,<br>Shine Ministry - India.</p></div></div></div></section>
@@ -319,9 +376,10 @@ body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'SF Pro Display','Helv
 <div class="scroll-top" id="scrollTop"><svg viewBox="0 0 24 24"><path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"/></svg></div>
 <script>
 (function(){var menuBtn=document.getElementById('menuBtn');var overlay=document.getElementById('navOverlay');var sidebar=document.getElementById('navSidebar');function openNav(){overlay.classList.add('open');sidebar.classList.add('open')}function closeNav(){overlay.classList.remove('open');sidebar.classList.remove('open')}if(menuBtn)menuBtn.addEventListener('click',openNav);if(overlay)overlay.addEventListener('click',closeNav);document.querySelectorAll('.ios-sb-link').forEach(function(l){l.addEventListener('click',closeNav)})})();
+(function(){var loader=document.getElementById('pageLoader');if(loader){setTimeout(function(){loader.classList.add('hidden');setTimeout(function(){loader.remove()},500)},800)}})();
 (function(){var sentences=["In Creation (<i>Romans 1:20</i>)","In Prayer (<i>Jeremiah 29:12</i>)","In Worship (<i>Psalm 22:3</i>)","In Silence (<i>Psalm 46:10</i>)","Through The Word (<i>Hebrews 4:12</i>)","In Fasting (<i>Joel 2:12</i>)","Through The Holy Spirit (<i>John 16:13</i>)","In Trials And Tribulations (<i>James 1:2-3</i>)","In Healing (<i>Exodus 15:26</i>)","In Dreams (<i>Genesis 28:12-13</i>)","In Nature (<i>Psalm 19:1</i>)","In The Church (<i>Matthew 18:20</i>)","In Community (<i>Acts Of the Apostles 2:42</i>)","In Service (<i>Matthew 25:40</i>)","Through His Promises (<i>2 Corinthians 1:20</i>)","In Repentance (<i>Isaiah 1:18</i>)","In Obedience (<i>Deuteronomy 28:1</i>)","In The Sacraments (<i>Luke 22:19</i>)","In Sacrifice (<i>Romans 12:1</i>)","In The Breakthrough (<i>2 Samuel 5:20</i>)"];var el=document.getElementById("typewriterText");var si=0,ci=0,typing=true;function tick(){if(typing){if(ci<sentences[si].length){ci++;el.innerHTML=sentences[si].substring(0,ci)+'<span class="typewriter-cursor"></span>';setTimeout(tick,80)}else{setTimeout(function(){typing=false;tick()},1500)}}else{if(ci>0){ci--;el.innerHTML=sentences[si].substring(0,ci)+'<span class="typewriter-cursor"></span>';setTimeout(tick,40)}else{typing=true;si=(si+1)%sentences.length;setTimeout(tick,400)}}}if(el)tick()})();
 (function(){var nav=document.getElementById('iosNav');var btn=document.getElementById('scrollTop');var hero=document.getElementById('hero');window.addEventListener('scroll',function(){var y=window.scrollY;nav.classList.toggle('scrolled',y>40);btn.classList.toggle('visible',y>400);if(hero){hero.classList.toggle('loaded',y>100)}},{passive:true});btn.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'})});setTimeout(function(){if(hero)hero.classList.add('loaded')},100)})();
-(function(){var observer=new IntersectionObserver(function(entries){entries.forEach(function(entry){if(entry.isIntersecting){entry.target.classList.add('visible');observer.unobserve(entry.target)}})},{threshold:0.1,rootMargin:'0px 0px -50px 0px'});document.querySelectorAll('.animate-on-scroll').forEach(function(el){observer.observe(el)})})();
+(function(){var observer=new IntersectionObserver(function(entries){entries.forEach(function(entry){if(entry.isIntersecting){entry.target.classList.add('visible');observer.unobserve(entry.target)}})},{threshold:0.1,rootMargin:'0px 0px -50px 0px'});document.querySelectorAll('.animate-on-scroll,.animate-slide-left,.animate-slide-right,.animate-scale').forEach(function(el){observer.observe(el)})})();
 </script>
 </body>
 </html>
